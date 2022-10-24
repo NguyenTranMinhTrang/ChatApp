@@ -3,11 +3,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import { StreamChat } from "stream-chat";
 import { OverlayProvider, Chat, ChannelList } from "stream-chat-expo";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Navigation from './app/navigation';
+import useCachedResources from './app/hooks/useCachedResources';
+import { useColorScheme } from 'react-native';
 
 const API_KEY = "jfcqrb27e9zw";
 const client = StreamChat.getInstance(API_KEY);
 
 export default function App() {
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
 
   useEffect(() => {
     const connectUser = async () => {
@@ -36,15 +41,21 @@ export default function App() {
     }
   }, []);
 
-  return (
-    <SafeAreaProvider>
-      <OverlayProvider>
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <Navigation colorScheme={colorScheme} />
+        {/* <OverlayProvider>
         <Chat client={client}>
-          <ChannelList/>
+          <ChannelList />
         </Chat>
-      </OverlayProvider>
-    </SafeAreaProvider>
-  );
+      </OverlayProvider> */}
+      </SafeAreaProvider>
+    );
+  }
+
 }
 
 const styles = StyleSheet.create({
