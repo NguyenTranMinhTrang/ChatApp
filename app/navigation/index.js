@@ -7,7 +7,9 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import { useColorScheme } from 'react-native';
 
 import { COLORS } from "../constants";
-import { ModalScreen, NotFoundScreen, TabOneScreen, TabTwoScreen } from '../screens';
+import {
+    ModalScreen, NotFoundScreen, TabOneScreen, TabTwoScreen, SignUpScreen
+} from '../screens';
 import linking from './LinkingConfiguration';
 
 export default function Navigation({ colorScheme }) {
@@ -24,8 +26,9 @@ const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName='SignUp'>
             <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} />
             <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
             <Stack.Group screenOptions={{ presentation: 'modal' }}>
                 <Stack.Screen name="Modal" component={ModalScreen} />
